@@ -41,7 +41,7 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 app.get("/", (req, res) => {
-  const query = "SELECT * FROM posts";
+  const query = "SELECT * FROM posts ORDER BY id DESC";
   db.query(query, (err, results) => {
     if (err) throw err;
 
@@ -65,9 +65,10 @@ app.get("/:bookName", (req, res) => {
     } else if (results.length === 0) {
       res.status(404).json({ error: "Book not found" });
     } else {
+      const comments = results[0].comments ? JSON.parse(results[0].comments).reverse() : [];
       const post = {
         ...results[0],
-        comments: JSON.parse(results[0].comments),
+        comments,
         img_path: `http://localhost:3000${results[0].img_path.replace("/src/imgs", "/imgs")}`,
       };
 

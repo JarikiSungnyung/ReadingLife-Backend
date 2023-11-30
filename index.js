@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const express = require("express");
 const mysql = require("mysql");
 const multer = require("multer");
@@ -6,10 +8,10 @@ const path = require("path");
 const fs = require("fs");
 
 const db = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "",
-  database: "readinglife",
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_NAME,
 });
 
 db.connect((err) => {
@@ -47,7 +49,7 @@ app.get("/", (req, res) => {
 
     const posts = results.map((post) => ({
       ...post,
-      img_path: `http://localhost:3000${post.img_path.replace("/src/imgs", "/imgs")}`,
+      img_path: `${process.env.BACKEND_URL}${post.img_path.replace("/src/imgs", "/imgs")}`,
     }));
 
     res.status(200).json(posts);
@@ -69,7 +71,7 @@ app.get("/:bookName", (req, res) => {
       const post = {
         ...results[0],
         comments,
-        img_path: `http://localhost:3000${results[0].img_path.replace("/src/imgs", "/imgs")}`,
+        img_path: `${process.env.BACKEND_URL}${results[0].img_path.replace("/src/imgs", "/imgs")}`,
       };
 
       res.status(200).json(post);

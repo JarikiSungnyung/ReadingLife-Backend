@@ -21,7 +21,11 @@ db.connect((err) => {
 
 const app = express();
 
-app.use(cors(`${process.env.FRONTEND_URL}`));
+app.use(
+  cors({
+    origin: "https://web-readinglife-frontend-32updzt2alplw0emu.sel4.cloudtype.app",
+  })
+);
 app.use(express.json());
 app.use("/imgs", express.static(path.join(__dirname, "src/imgs")));
 

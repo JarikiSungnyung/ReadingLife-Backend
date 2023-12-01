@@ -23,7 +23,7 @@ const app = express();
 
 app.use(
   cors({
-    origin: "https://web-readinglife-frontend-32updzt2alplw0emu.sel4.cloudtype.app",
+    origin: process.env.FRONTEND_URL,
   })
 );
 app.use(express.json());

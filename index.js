@@ -21,7 +21,7 @@ db.connect((err) => {
 
 const app = express();
 
-app.use(cors());
+app.use(cors(`${process.env.FRONTEND_URL}`));
 app.use(express.json());
 app.use("/imgs", express.static(path.join(__dirname, "src/imgs")));
 
